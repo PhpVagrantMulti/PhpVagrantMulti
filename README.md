@@ -13,18 +13,18 @@ Introduction
 Php Vagrant Multi Purpose VM is a vagrant config hack and set of cookbooks that facilitate the provisioning of PHP development virtual machines using Vagrant. The goal of this project is to provide a single, configurable, easy to use vagrant configuration for all kinds of PHP development projects.
 
 The tool provides:
-    -A vhost for your project
-    -A preconfiured vhost at local.phpmyadmin.com for database dev work
-    -xhprof and a fully configured xhgui at local.xhgui.com for profiling. 
-    -mailcatcher for advanced email testing, (available at the vm ip address and port 1080, ie 192.168.33.10:1080)
-    -Out of the box xdebug preconfigured for PHP Storm IDE connections
-    -vm_mode.sh script that instantly switches your php environment to performance mode (opcache, no xdebug no xhgui) to debug mode with a simple command
+    *A vhost for your project
+    *A preconfiured vhost at local.phpmyadmin.com for database dev work
+    *xhprof and a fully configured xhgui at local.xhgui.com for profiling. 
+    *mailcatcher for advanced email testing, (available at the vm ip address and port 1080, ie 192.168.33.10:1080)
+    *Out of the box xdebug preconfigured for PHP Storm IDE connections
+    *vm_mode.sh script that instantly switches your php environment to performance mode (opcache, no xdebug no xhgui) to debug mode with a simple command
 
 Requirements
 ------------
 
-Most recent version of Vagrant                          https://www.vagrantup.com/downloads.html
-Most recent version of chef-dk (required for berkshelf) https://downloads.chef.io/chef-dk/
+Most recent version of Vagrant                          https://www.vagrantup.com/downloads.html<br>
+Most recent version of chef-dk (required for berkshelf) https://downloads.chef.io/chef-dk/<br>  
 
 Installation and Quick Start
 ----------------------------
@@ -41,10 +41,10 @@ init.bat
 ```
 
 On unix style systems run init.sh for your initial vagrantup
-    -Modify /etc/hosts to include the ip address of the vm to point to:
-        -local.phpmyadmin.com
-        -local.xhgui.com
-        -local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Modify /etc/hosts to include the ip address of the vm to point to:
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.phpmyadmin.com
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.xhgui.com
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
 
 For example if you are using the default ip address:
 
@@ -55,10 +55,11 @@ For example if you are using the default ip address:
 ```
 
 On windows systems run init.bat from a cmd windowa
-    -Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
-        -local.phpmyadmin.com
-        -local.xhgui.com
-        -local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.phpmyadmin.com
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.xhgui.com
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
 
 Each subsequent run can be performed with vagrant up.
 
