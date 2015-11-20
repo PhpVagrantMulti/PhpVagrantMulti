@@ -54,11 +54,17 @@ For example if you are using the default ip address:
 192.168.33.10 local.example.com
 ```
 
-On windows systems run init.bat from a cmd windowa
+On windows systems run init.bat from a cmd window
  - Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
     - local.phpmyadmin.com
     - local.xhgui.com
     - local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
+
+```
+192.168.33.10 local.phpmyadmin.com
+192.168.33.10 local.xhgui.com
+192.168.33.10 local.example.com
+```
 
 Each subsequent run can be performed with vagrant up.
 
