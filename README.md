@@ -44,7 +44,7 @@ On unix style systems run init.sh for your initial vagrantup
  - Modify /etc/hosts to include the ip address of the vm to point to:
     - local.phpmyadmin.com
     - local.xhgui.com
-    - local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
+    - local.projectsitename.tld where projectsitename is is the domain name of your project and tld is your top level domain.
 
 For example if you are using the default ip address:
 
