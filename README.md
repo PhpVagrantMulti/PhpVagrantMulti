@@ -40,8 +40,10 @@ init.sh
 init.bat
 ```
 
-On unix style systems run init.sh for your initial vagrantup
- - Modify /etc/hosts to include the ip address of the vm to point to:
+On unix style systems:
+
+ 1. Run init.sh for your initial vagrantup
+ 2. Modify /etc/hosts to include the ip address of the vm to point to:
     - local.phpmyadmin.com
     - local.xhgui.com
     - local.projectsitename.tld where projectsitename is is the domain name of your project and tld is your top level domain.
@@ -54,11 +56,15 @@ For example if you are using the default ip address:
 192.168.33.10 local.example.com
 ```
 
-On windows systems run init.bat from a cmd window
- - Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
+On windows systems:
+
+ 1. Run init.bat from a cmd window:
+ 2. Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
     - local.phpmyadmin.com
     - local.xhgui.com
-    - local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
+    - local.projectsitename.tld where projectsitename is is the domain name of your project and tld is your top level domain.
+
+For example if you are using the default ip address:
 
 ```
 192.168.33.10 local.phpmyadmin.com
@@ -66,7 +72,7 @@ On windows systems run init.bat from a cmd window
 192.168.33.10 local.example.com
 ```
 
-Each subsequent run can be performed with vagrant up.
+Finally, each subsequent run can be performed with a normal vagrant up.
 
 To run xhgui profiling you have to edit your vhost config and uncomment the line that reads:
 
