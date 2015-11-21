@@ -53,6 +53,7 @@ module PhpVagrantMulti
     attr_accessor :vm_feature_ssl
     attr_accessor :vm_feature_mysql
     attr_accessor :vm_feature_postgresql
+    attr_accessor :vm_feature_sqlite
     attr_accessor :vm_feature_mongo_db
     attr_accessor :vm_feature_redis
     attr_accessor :vm_feature_memcached
@@ -64,6 +65,7 @@ module PhpVagrantMulti
     attr_accessor :vm_feature_nginx
     attr_accessor :vm_feature_apache_mpm_prefork
     attr_accessor :vm_feature_apache_mpm_event
+    attr_accessor :vm_feature_gearman
     attr_accessor :php_platform
 
     def initialize args
@@ -75,6 +77,71 @@ module PhpVagrantMulti
 
     def self.SUPPORTED_PLATFORMS
       @@SUPPORTED_PLATFORMS
+    end
+
+    def getAptPackages
+      packages = %w{build-essential php5-dev unzip php-pear ruby-dev}
+
+      if self.vm_feature_memcached
+        packages.push("memcached")
+      end
+
+      if self.vm_feature_redis
+        packages.push("redis-server")
+      end
+
+      if self.vm_feature_gearman
+        packages.push("gearman-server")
+      end
+
+      if self.vm_feature_sqlite
+        packages.push("sqlite3")
+        packages.push("sqlite3-dev")
+      end
+
+      return packages
+    end
+
+    def getPhpPackages
+      packages = %w{
+        php5-imagick
+        php5-geoip
+        php5-gmp
+        php5-imap
+        php5-intl
+        php5-mcrypt
+        php5-mhash
+        php5-mysqlnd
+        php5-mysqlnd-ms
+        php5-oauth
+        php5-ps
+        php5-pspell
+        php5-recode
+        php5-tidy
+        php5-xdebug
+        php5-xhprof
+        php5-xmlrpc
+        php5-xsl
+      }
+
+      if self.vm_feature_memcached
+        packages.push("php5-memcached")
+        packages.push("php5-memcache")
+      end
+
+      if self.vm_feature_redis
+        packages.push("php5-redis")
+      end
+
+      if self.vm_feature_gearman
+        packages.push("php5-gearman")
+      end
+
+      if self.vm_feature_sqlite
+        packages.push("php5-sqlite")
+      end
+
+      return packages
     end
   end
 end
