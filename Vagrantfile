@@ -57,7 +57,10 @@ Vagrant.configure(2) do |config|
 
     # Install PostgreSQL RDBMS
     :vm_feature_postgresql => false,
-    
+
+    # Install sqlite
+    :vm_feature_sqlite => false,
+
     # Install Mongo DB
     :vm_feature_mongo_db => false,
 
@@ -90,7 +93,10 @@ Vagrant.configure(2) do |config|
 
     # Install apache as a web server. This option implies php5-fpm
     :vm_feature_apache_mpm_event => false,
-    
+
+    # Install gearman-server
+    :vm_feature_gearman => false,
+
     ##
     # Specify the PHP Platform or framework being used. This isn't always needed
     # The main purpose of this is so that if a particular platform or framework is specified
@@ -236,6 +242,15 @@ Vagrant.configure(2) do |config|
       "domain_name" => "example",
       "document_root" => ""
     }
+
+    chef.json["aptPackages"] = {
+      "packages" => pvm.getAptPackages()
+    }
+
+    chef.json["phpEnvironment"] = {
+        "packages" => pvm.getPhpPackages()
+    }
+    
   end 
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
