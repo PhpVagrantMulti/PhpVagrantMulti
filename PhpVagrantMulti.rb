@@ -80,7 +80,7 @@ module PhpVagrantMulti
     end
 
     def getAptPackages
-      packages = %w{build-essential php5-dev unzip php-pear ruby-dev}
+      packages = %w{build-essential php5-dev unzip php-pear ruby-dev git}
 
       if self.vm_feature_memcached
         packages.push("memcached")
