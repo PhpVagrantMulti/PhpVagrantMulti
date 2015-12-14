@@ -27,16 +27,22 @@ module PhpVagrantMulti
   class PhpVagrantMultiSettings
     @@SUPPORTED_PLATFORMS = {
       :CORE         => 0,
-      :ZEND         => 1,
-      :SYMFONY      => 2,
-      :MAGENTO      => 3,
-      :LARVEL       => 4,
-      :YII          => 5,
-      :WORDPRESS    => 6,
-      :JOOMLA       => 7,
-      :DRUPAL       => 8,
-      :CODE_IGNITER => 9,
-      :SUGAR_CRM    => 10
+      :CAKE         => 1,
+      :CODE_IGNITER => 2,
+      :DRUPAL       => 3,
+      :FAT_FREE     => 4,
+      :FUEL_PHP     => 5,
+      :JOOMLA       => 6,
+      :LARVEL       => 7,
+      :MAGENTO      => 8,
+      :MAGENTO2     => 9,
+      :PHALCON      => 10,
+      :SPARK        => 11,
+      :SUGAR_CRM    => 12,
+      :SYMFONY      => 13,
+      :WORDPRESS    => 14,
+      :YII          => 15,
+      :ZEND         => 16
     }
 
     attr_accessor :local_code_dir
@@ -67,6 +73,10 @@ module PhpVagrantMulti
     attr_accessor :vm_feature_apache_mpm_event
     attr_accessor :vm_feature_gearman
     attr_accessor :php_platform
+    attr_accessor :sensio_platform_project_name
+    attr_accessor :vhost_tld
+    attr_accessor :vhost_domain_name
+    attr_accessor :vhost_document_root
 
     def initialize args
       args.each do |k,v|
@@ -80,7 +90,7 @@ module PhpVagrantMulti
     end
 
     def getAptPackages
-      packages = %w{build-essential php5-dev unzip php-pear ruby-dev}
+      packages = %w{build-essential php5-dev unzip php-pear ruby-dev git}
 
       if self.vm_feature_memcached
         packages.push("memcached")
@@ -142,6 +152,31 @@ module PhpVagrantMulti
       end
 
       return packages
+    end
+
+    def getVhostDocumentRoot
+      webRoot = ""
+
+      case self.php_platform
+      when @@SUPPORTED_PLATFORMS[:SYMFONY], @@SUPPORTED_PLATFORMS[:SILEX]
+         webRoot = "/" + self.sensio_platform_project_name + "/" + "web"
+      when @@SUPPORTED_PLATFORMS[:ZEND], @@SUPPORTED_PLATFORMS[:LARAVEL], @@SUPPORTED_PLATFORMS[:FUEL_PHP], @@SUPPORTED_PLATFORMS[:PHALCON]
+        webRoot = "/public"
+      when @@SUPPORTED_PLATFORMS[:YII], @@SUPPORTED_PLATFORMS[:SPARK]
+        webRoot = "/web"
+      when @@SUPPORTED_PLATFORMS[:MAGENTO2]
+        webRoot = "/pub"
+      when @@SUPPORTED_PLATFORMS[:FAT_FREE]
+        webRoot = "/www"
+      when @@SUPPORTED_PLATFORMS[:CAKE]
+        webRoot = "/app/webroot"    
+      end
+  
+      if(self.vhost_document_root != "")
+        webRoot = self.vhost_document_root
+      end
+
+      return webRoot
     end
   end
 end
