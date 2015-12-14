@@ -13,13 +13,16 @@ Introduction
 Php Vagrant Multi Purpose VM is a vagrant config hack and set of cookbooks that facilitate the provisioning of PHP development virtual machines using Vagrant. The goal of this project is to provide a single, configurable, easy to use vagrant configuration for all kinds of PHP development projects.
 
 The tool provides:
-    * A vhost for your project
-    * PhpMyAdmin at local.phpmyadmin.com
-    * xhprof and a fully configured xhgui at local.xhgui.com for graphical profiling.
-    * mailcatcher for advanced email testing, (available at the vm ip address and port 1080, ie 192.168.33.10:1080)
-    * Out of the box phing
-    * Turn key xdebug especially configured for use with PHP Storm IDE connections
-    * vm_mode.sh script that instantly switches your php environment to performance mode (opcache, no xdebug no xhgui) to debug mode with a simple command
+
+ * A vhost for your project
+ * PhpMyAdmin at local.phpmyadmin.com
+ * xhprof and a fully configured xhgui at local.xhgui.com for graphical profiling.
+ * mailcatcher for advanced email testing, (available at the vm ip address and port 1080, ie 192.168.33.10:1080)
+
+ * Out of the box phing
+ * Turn key xdebug especially configured for use with PHP Storm IDE connections
+ * vm_mode.sh script that instantly switches your php environment to performance mode (opcache, no xdebug no xhgui) to debug mode with a simple command
+
 
 Requirements
 ------------

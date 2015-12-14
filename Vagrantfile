@@ -102,7 +102,22 @@ Vagrant.configure(2) do |config|
     # The main purpose of this is so that if a particular platform or framework is specified
     # Special cookbooks and/or packages could be installed to support special requirements
     ##
-    :php_platform => PhpVagrantMulti::PhpVagrantMultiSettings.SUPPORTED_PLATFORMS[:CORE]
+    :php_platform => PhpVagrantMulti::PhpVagrantMultiSettings.SUPPORTED_PLATFORMS[:CORE],
+
+    # If you use silex or symfony set your project name here to ensure it's mapped correctly in the vhost
+    :sensio_platform_project_name => "",
+
+    ##
+    # Cookbook Attribute Overrides
+    ##
+
+    # Top level domain, com, net, io, etc
+    :vhost_tld => "com",
+
+    # Domain name of your project site, example by default
+    :vhost_domain_name => "example",
+
+    :vhost_document_root => ""
   })
 
   # Berkshelf config
@@ -238,9 +253,9 @@ Vagrant.configure(2) do |config|
   
     chef.json["vhost"] = { 
       "ssl" => true,
-      "tld" => "com",
-      "domain_name" => "example",
-      "document_root" => ""
+      "tld" => pvm.vhost_tld,
+      "domain_name" => pvm.vhost_domain_name,
+      "document_root" => pvm.getVhostDocumentRoot()
     }
 
     chef.json["aptPackages"] = {
