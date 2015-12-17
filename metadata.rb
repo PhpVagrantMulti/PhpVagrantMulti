@@ -1,4 +1,4 @@
-name             'PHPMulti'
+name             'PHPVagrantMulti'
 maintainer       'Seth Griffin'
 maintainer_email 'griffinseth@yahoo.com'
 license          'All rights reserved'
