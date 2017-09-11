@@ -30,9 +30,7 @@ cookbook "apt"
 cookbook "vim"
 cookbook "openssl"
 cookbook "apache2"
-cookbook "mysql", '= 5.6.3'
 cookbook "php"
-cookbook 'database', '~> 4.0.6'
 
 cookbook "apt_packages", git: "https://github.com/PhpVagrantMulti/apt_packages.git"
 cookbook "php_environment", git: "https://github.com/PhpVagrantMulti/php_environment.git"

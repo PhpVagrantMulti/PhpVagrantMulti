@@ -80,10 +80,10 @@ Vagrant.configure(2) do |config|
     :vm_feature_php_myadmin => true,
     
     # Install xhgui profiler (cookbook provided by PhpVagrantMulti project)
-    :vm_feature_xhgui => true,
+    :vm_feature_xhgui => false,
 
     # Install mailcatcher
-    :vm_feature_mailcatcher => true,
+    :vm_feature_mailcatcher => false,
 
     # Install nginx as a web server
     :vm_feature_nginx => false,
@@ -131,7 +131,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
   config.vm.hostname = pvm.vm_hostname
 
   # Disable automatic box update checking. If you disable this, then
@@ -211,27 +211,21 @@ Vagrant.configure(2) do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.provision :chef_solo do |chef|
+
     use_apache = pvm.vm_feature_apache_mpm_prefork || pvm.vm_feature_apache_mpm_event
 
     chef.add_recipe 'apt'
     chef.add_recipe 'vim'
-    chef.add_recipe 'openssl' unless !pvm.vm_feature_ssl
-    chef.add_recipe 'apache2' unless !use_apache
-    chef.add_recipe 'apache2::mod_php5' unless !pvm.vm_feature_apache_mpm_prefork
-    chef.add_recipe 'mysql::client' unless !pvm.vm_feature_mysql
-    chef.add_recipe 'mysql::server' unless !pvm.vm_feature_mysql
+    chef.add_recipe 'openssl' unless !(pvm.vm_feature_ssl)
+    chef.add_recipe 'apache2' unless !(use_apache)
+    chef.add_recipe 'apache2::fastcgi' unless !(pvm.vm_feature_apache_mpm_event)
     chef.add_recipe 'php'
-    chef.add_recipe 'php::module_mysql'
-    chef.add_recipe 'php::module_gd'
-    chef.add_recipe 'php::module_curl'
     chef.add_recipe 'apt_packages' 
     chef.add_recipe 'php_environment'
     chef.add_recipe 'php_myadmin' unless !(pvm.vm_feature_mysql && pvm.vm_feature_php_myadmin)
     chef.add_recipe 'mailcatcher' unless !pvm.vm_feature_mailcatcher
     chef.add_recipe 'vhost' 
     chef.add_recipe 'xhgui' unless !pvm.vm_feature_xhgui
-        
-    chef.json = {}
 
     if use_apache
       apache_mpm = use_apache && pvm.vm_feature_apache_mpm_prefork ? "prefork" : "event"
@@ -241,7 +235,9 @@ Vagrant.configure(2) do |config|
         chef.json["apache"]["default_modules"] = ["ssl"]
       end
     end
- 
+        
+    chef.json = {}
+
     if pvm.vm_feature_mysql      
       chef.json["mysql"] = { 
         "version"                => "5.6",
@@ -263,7 +259,8 @@ Vagrant.configure(2) do |config|
     }
 
     chef.json["phpEnvironment"] = {
-        "packages" => pvm.getPhpPackages()
+        "packages" => pvm.getPhpPackages(),
+        "use_fpm" => pvm.vm_feature_apache_mpm_event
     }
     
   end 
