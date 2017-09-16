@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
     :vm_network_ip => "192.168.33.10",
     
     # Where the code from local_code_dir above lives on the vm
-    :vm_code_dir => "/var/www/html/local.example.com",
+    :vm_code_dir => "/var/www/vhosts/local.example.com",
 
     # Who owns the code directory
     :vm_code_dir_owner => "www-data",
@@ -55,6 +55,9 @@ Vagrant.configure(2) do |config|
     # Install MySQL RDBMS
     :vm_feature_mysql => true,
 
+    # If MySQL is used, default root password
+    :vm_feature_mysql_pw => "vagrant",
+
     # Install PostgreSQL RDBMS
     :vm_feature_postgresql => false,
 
@@ -80,19 +83,19 @@ Vagrant.configure(2) do |config|
     :vm_feature_php_myadmin => true,
     
     # Install xhgui profiler (cookbook provided by PhpVagrantMulti project)
-    :vm_feature_xhgui => true,
+    :vm_feature_xhgui => false,
 
     # Install mailcatcher
-    :vm_feature_mailcatcher => true,
+    :vm_feature_mailcatcher => false,
 
     # Install nginx as a web server
     :vm_feature_nginx => false,
         
     # Install apache as a web server. This option implies mod_php
-    :vm_feature_apache_mpm_prefork => true,
+    :vm_feature_apache_mpm_prefork => false,
 
     # Install apache as a web server. This option implies php5-fpm
-    :vm_feature_apache_mpm_event => false,
+    :vm_feature_apache_mpm_event => true,
 
     # Install gearman-server
     :vm_feature_gearman => false,
@@ -131,7 +134,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "bento/ubuntu-16.04"
   config.vm.hostname = pvm.vm_hostname
 
   # Disable automatic box update checking. If you disable this, then
@@ -211,46 +214,43 @@ Vagrant.configure(2) do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.provision :chef_solo do |chef|
+
     use_apache = pvm.vm_feature_apache_mpm_prefork || pvm.vm_feature_apache_mpm_event
 
     chef.add_recipe 'apt'
     chef.add_recipe 'vim'
-    chef.add_recipe 'openssl' unless !pvm.vm_feature_ssl
-    chef.add_recipe 'apache2' unless !use_apache
-    chef.add_recipe 'apache2::mod_php5' unless !pvm.vm_feature_apache_mpm_prefork
-    chef.add_recipe 'mysql::client' unless !pvm.vm_feature_mysql
-    chef.add_recipe 'mysql::server' unless !pvm.vm_feature_mysql
+    chef.add_recipe 'openssl' unless !(pvm.vm_feature_ssl)
+
+    if use_apache
+      chef.add_recipe 'apache2'
+
+      apache_mpm = use_apache && pvm.vm_feature_apache_mpm_prefork ? "prefork" : "event"
+      chef.json["apache"] = { "mpm" => apache_mpm }
+    
+      if apache_mpm == 'event'
+        chef.add_recipe 'apache2::mod_fastcgi'
+        chef.add_recipe 'apache2::mod_proxy'
+        chef.add_recipe 'apache2::mod_proxy_fcgi'
+      end
+
+      if pvm.vm_feature_ssl
+        chef.add_recipe 'apache2::mod_ssl'
+      end
+
+      chef.add_recipe 'apache2::mod_rewrite'
+    end
+
     chef.add_recipe 'php'
-    chef.add_recipe 'php::module_mysql'
-    chef.add_recipe 'php::module_gd'
-    chef.add_recipe 'php::module_curl'
     chef.add_recipe 'apt_packages' 
     chef.add_recipe 'php_environment'
     chef.add_recipe 'php_myadmin' unless !(pvm.vm_feature_mysql && pvm.vm_feature_php_myadmin)
     chef.add_recipe 'mailcatcher' unless !pvm.vm_feature_mailcatcher
     chef.add_recipe 'vhost' 
     chef.add_recipe 'xhgui' unless !pvm.vm_feature_xhgui
+
         
     chef.json = {}
 
-    if use_apache
-      apache_mpm = use_apache && pvm.vm_feature_apache_mpm_prefork ? "prefork" : "event"
-      chef.json["apache"] = { "mpm" => apache_mpm }
-    
-      if pvm.vm_feature_ssl
-        chef.json["apache"]["default_modules"] = ["ssl"]
-      end
-    end
- 
-    if pvm.vm_feature_mysql      
-      chef.json["mysql"] = { 
-        "version"                => "5.6",
-        "server_root_password"   => "vagrant",
-        "server_repl_password"   => "vagrant",    
-        "server_debian_password" => "vagrant"
-      }
-    end
-  
     chef.json["vhost"] = { 
       "ssl" => true,
       "tld" => pvm.vhost_tld,
@@ -263,7 +263,10 @@ Vagrant.configure(2) do |config|
     }
 
     chef.json["phpEnvironment"] = {
-        "packages" => pvm.getPhpPackages()
+        "packages" => pvm.getPhpPackages(),
+        "use_fpm" => pvm.vm_feature_apache_mpm_event,
+        "use_mysql" => pvm.vm_feature_mysql,
+        "mysql_pw" => pvm.vm_feature_mysql_pw
     }
     
   end 

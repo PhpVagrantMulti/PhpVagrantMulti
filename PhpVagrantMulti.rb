@@ -58,6 +58,7 @@ module PhpVagrantMulti
 
     attr_accessor :vm_feature_ssl
     attr_accessor :vm_feature_mysql
+    attr_accessor :vm_feature_mysql_pw
     attr_accessor :vm_feature_postgresql
     attr_accessor :vm_feature_sqlite
     attr_accessor :vm_feature_mongo_db
@@ -90,7 +91,7 @@ module PhpVagrantMulti
     end
 
     def getAptPackages
-      packages = %w{build-essential php5-dev unzip php-pear ruby-dev git}
+      packages = %w{build-essential php7.0-dev unzip php-pear ruby-dev git}
 
       if self.vm_feature_memcached
         packages.push("memcached")
@@ -114,41 +115,44 @@ module PhpVagrantMulti
 
     def getPhpPackages
       packages = %w{
-        php5-imagick
-        php5-geoip
-        php5-gmp
-        php5-imap
-        php5-intl
-        php5-mcrypt
-        php5-mhash
-        php5-mysqlnd
-        php5-mysqlnd-ms
-        php5-oauth
-        php5-ps
-        php5-pspell
-        php5-recode
-        php5-tidy
-        php5-xdebug
-        php5-xhprof
-        php5-xmlrpc
-        php5-xsl
+        php7.0-gd
+        php7.0-curl
+        php-imagick
+        php-geoip
+        php7.0-gmp
+        php7.0-imap
+        php7.0-intl
+        php7.0-mcrypt
+        php7.0-mysqlnd
+        php-oauth
+        php7.0-pspell
+        php7.0-recode
+        php7.0-tidy
+        php-xdebug
+        php7.0-xmlrpc
+        php7.0-xsl
+        php7.0-mbstring
       }
+    
+      if self.vm_feature_mysql
+        packages.push("php7.0-pdo")
+        packages.push("php7.0-pdo-mysql")
+      end
 
       if self.vm_feature_memcached
-        packages.push("php5-memcached")
-        packages.push("php5-memcache")
+        packages.push("php-memcached")
       end
 
       if self.vm_feature_redis
-        packages.push("php5-redis")
+        packages.push("php7.0-redis")
       end
 
       if self.vm_feature_gearman
-        packages.push("php5-gearman")
+        packages.push("php7.0-gearman")
       end
 
       if self.vm_feature_sqlite
-        packages.push("php5-sqlite")
+        packages.push("php7.0-sqlite")
       end
 
       return packages
