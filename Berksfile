@@ -28,13 +28,14 @@ metadata
 
 cookbook "apt"
 cookbook "vim"
+cookbook "mysql"
 cookbook "openssl"
 cookbook "apache2"
 cookbook "php"
 
-cookbook "apt_packages", git: "https://github.com/PhpVagrantMulti/apt_packages.git"
-cookbook "php_environment", git: "https://github.com/PhpVagrantMulti/php_environment.git"
-cookbook "php_myadmin", git: "https://github.com/PhpVagrantMulti/php_myadmin.git"
-cookbook "vhost", git: "https://github.com/PhpVagrantMulti/vhost.git"
+cookbook "apt_packages", git: "https://github.com/PhpVagrantMulti/apt_packages.git" 
+cookbook "php_environment", git: "https://github.com/seth-griffin/php_environment.git", branch: "php-7-updates"
+cookbook "php_myadmin", git: "https://github.com/seth-griffin/php_myadmin.git", branch: "php-7-updates"
+cookbook "vhost", git: "https://github.com/seth-griffin/vhost.git", branch: "php-7-updates"
 cookbook "xhgui", git: "https://github.com/PhpVagrantMulti/xhgui.git"
 cookbook "mailcatcher", git: "https://github.com/PhpVagrantMulti/mailcatcher.git"

@@ -58,6 +58,7 @@ module PhpVagrantMulti
 
     attr_accessor :vm_feature_ssl
     attr_accessor :vm_feature_mysql
+    attr_accessor :vm_feature_mysql_pw
     attr_accessor :vm_feature_postgresql
     attr_accessor :vm_feature_sqlite
     attr_accessor :vm_feature_mongo_db
@@ -130,6 +131,7 @@ module PhpVagrantMulti
         php-xdebug
         php7.0-xmlrpc
         php7.0-xsl
+        php7.0-mbstring
       }
     
       if self.vm_feature_mysql
