@@ -14,8 +14,8 @@ Php Vagrant Multi Purpose VM is a vagrant config hack and set of cookbooks that 
 
 The tool provides:
     * A vhost for your project
-    * PhpMyAdmin at local.phpmyadmin.com
-    * xhprof and a fully configured xhgui at local.xhgui.com for graphical profiling.
+    * PhpMyAdmin at phpmyadmin.local
+    * xhprof and a fully configured xhgui at local.xhgui.com for graphical profiling. Unavailable at this time due to xhprof project being behind on php 7 support
     * mailcatcher for advanced email testing, (available at the vm ip address and port 1080, ie 192.168.33.10:1080)
     * Out of the box phing
     * Turn key xdebug especially configured for use with PHP Storm IDE connections
@@ -44,14 +44,14 @@ init.bat
 On unix style systems: 
     1. Run init.sh for your initial vagrantup
     2. Modify /etc/hosts to include the ip address of the vm to point to:
-       - local.phpmyadmin.com
+       - phpmyadmin.local
        - local.xhgui.com
        - local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
 
 For example if you are using the default ip address:
 
 ```
-192.168.33.10 local.phpmyadmin.com
+192.168.33.10 phpmyadmin.local
 192.168.33.10 local.xhgui.com
 192.168.33.10 local.example.com
 ```
@@ -59,7 +59,7 @@ For example if you are using the default ip address:
 On windows systems:
     1. Run init.bat from a cmd window
     2. Modify c:\Windows\System32\Drivers\etc\hosts to include the ip address of the vm to point to:
-       - local.phpmyadmin.com
+       - phpmyadmin.local
        - local.xhgui.com
        - local.<projectsitename>.<tld> where <projectsitename> is is the domain name of your project and <tld> is your top level domain.
 
