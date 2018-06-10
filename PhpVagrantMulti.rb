@@ -110,6 +110,10 @@ module PhpVagrantMulti
         packages.push("sqlite3-dev")
       end
 
+      if self.vm_feature_elastic_search
+        packages.push("elasticsearch")
+      end
+
       return packages
     end
 
