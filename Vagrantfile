@@ -211,7 +211,7 @@ Vagrant.configure(2) do |config|
 
   end
 
-  config.omnibus.chef_version = :latest
+  config.omnibus.chef_version = "14.2.0"
 
   config.vm.provision :chef_solo do |chef|
 
@@ -259,7 +259,8 @@ Vagrant.configure(2) do |config|
     }
 
     chef.json["aptPackages"] = {
-      "packages" => pvm.getAptPackages()
+      "packages" => pvm.getAptPackages(),
+      "use_elasticsearch" => pvm.vm_feature_elastic_search
     }
 
     chef.json["phpEnvironment"] = {

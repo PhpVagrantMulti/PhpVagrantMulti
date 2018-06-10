@@ -28,7 +28,7 @@ metadata
 
 cookbook "apt"
 cookbook "vim"
-cookbook "mysql"
+cookbook "mysql", '~> 8.0'
 cookbook "openssl"
 cookbook "apache2"
 cookbook "php"
